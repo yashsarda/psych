@@ -15,6 +15,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+// This annotation bascially tells hibernate that when someone inherits this class, make ure to inherit all these variables
+@MappedSuperclass
 // EntityListener annotation is used to keep track when the table changes
 @EntityListeners(AuditingEntityListener.class)
 // When we implement this as an API, when calling this API, we don't need to pass the created date and updated date
@@ -22,6 +24,11 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public abstract class Auditable implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    private Long id;
 
     @Column(nullable = false, updatable = false)
     @CreatedDate
